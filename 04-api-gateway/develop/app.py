@@ -20,8 +20,10 @@ Test:
          http://localhost:8000/ask
 """
 import os
+import sys
 
-
+# Thêm thư mục gốc vào đầu sys.path để có thể import từ utils (tránh xung đột với các thư mục utils khác)
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from fastapi import FastAPI, HTTPException, Security, Depends, Request
 from fastapi.security.api_key import APIKeyHeader
 import uvicorn

@@ -5,6 +5,10 @@
 Hãy đếm bao nhiêu vấn đề bạn tìm được trong file này.
 """
 import os
+import sys
+
+# Thêm thư mục gốc vào đầu sys.path để có thể import từ utils (tránh xung đột với các thư mục utils khác)
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from fastapi import FastAPI
 import uvicorn

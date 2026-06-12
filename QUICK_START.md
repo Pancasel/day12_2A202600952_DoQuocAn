@@ -66,10 +66,10 @@ curl http://localhost:8000/ask -X POST \
 ### Step 3: Docker Basics (5 minutes)
 
 ```bash
-cd ../../02-docker/develop
+cd ../../
 
 # Build image
-docker build -t my-agent .
+docker build -f 02-docker/develop/Dockerfile -t my-agent .
 
 # Run container
 docker run -p 8000:8000 my-agent
@@ -89,7 +89,8 @@ curl http://localhost:8000/ask -X POST \
 ### Step 4: Deploy to Cloud (10 minutes)
 
 ```bash
-cd ../../03-cloud-deployment/railway
+# From project root
+cd 03-cloud-deployment/railway
 
 # Install Railway CLI
 npm i -g @railway/cli

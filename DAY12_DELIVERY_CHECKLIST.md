@@ -1,8 +1,8 @@
 #  Delivery Checklist — Day 12 Lab Submission
 
-> **Student Name:** _________________________  
-> **Student ID:** _________________________  
-> **Date:** _________________________
+> **Student Name:** Do Quoc An
+> **Student ID:** 2A202600952
+> **Date:** 12/06/2026
 
 ---
 
@@ -12,55 +12,53 @@ Submit a **GitHub repository** containing:
 
 ### 1. Mission Answers (40 points)
 
-Create a file `MISSION_ANSWERS.md` with your answers to all exercises:
-
-```markdown
-# Day 12 Lab - Mission Answers
-
 ## Part 1: Localhost vs Production
 
 ### Exercise 1.1: Anti-patterns found
-1. [Your answer]
-2. [Your answer]
-...
+1. Cấu hình cứng (Hardcode) các tham số như IP, Port, Token.
+2. Không xử lý lỗi đồng bộ khi server khởi động/tắt, không có cấu trúc log chuẩn (thiếu Logging JSON).
 
 ### Exercise 1.3: Comparison table
 | Feature | Develop | Production | Why Important? |
 |---------|---------|------------|----------------|
-| Config  | ...     | ...        | ...            |
-...
+| Config  | Hardcode, file .env. | Lấy từ Environment Variables (12-Factor). | Bảo mật, dễ thay đổi trên cloud. |
+| Host | 127.0.0.1 (localhost) | 0.0.0.0 | Cho phép kết nối từ ngoài container. |
+| Logging | Print text thường. | JSON Structured. | Dễ query và monitor trên các hệ thống lớn. |
 
 ## Part 2: Docker
 
 ### Exercise 2.1: Dockerfile questions
-1. Base image: [Your answer]
-2. Working directory: [Your answer]
-...
+1. Base image: `python:3.11-slim`
+2. Working directory: `/app` (Runtime), `/build` (Builder)
+3. Điểm khác biệt quan trọng nhất: Dùng Multi-stage build tách biệt quá trình cài đặt với quá trình chạy thực tế, giúp image nhẹ đi rất nhiều.
 
 ### Exercise 2.3: Image size comparison
-- Develop: [X] MB
-- Production: [Y] MB
-- Difference: [Z]%
+- Develop: Khoảng 900+ MB
+- Production: < 200 MB
+- Difference: Giảm hơn 70%
 
 ## Part 3: Cloud Deployment
 
 ### Exercise 3.1: Railway deployment
-- URL: https://your-app.railway.app
-- Screenshot: [Link to screenshot in repo]
+- URL: https://quocanne-production-9358.up.railway.app
+- Screenshot: Xem trong thư mục `screenshots/`
 
 ## Part 4: API Security
 
 ### Exercise 4.1-4.3: Test results
-[Paste your test outputs]
+- Unauthorized request: Return `401 Unauthorized`.
+- Authorized request: Return `200 OK`.
+- Rate Limit check: Khi gọi quá 10 req/phút, trả về lỗi `429 Too Many Requests`.
 
 ### Exercise 4.4: Cost guard implementation
-[Explain your approach]
+- Dùng một biến theo dõi mức tiêu thụ token ước tính của user. Nếu `daily_cost > daily_budget_usd`, API ném lỗi `402 Payment Required` (hoặc 503) từ chối phục vụ để tránh vượt quá giới hạn ngân sách.
 
 ## Part 5: Scaling & Reliability
 
 ### Exercise 5.1-5.5: Implementation notes
-[Your explanations and test results]
-```
+- **Liveness & Readiness probes**: Endpoint `/health` dùng để báo cáo platform biết container còn sống, `/ready` để xác nhận agent đã khởi tạo xong và sẵn sàng nhận traffic.
+- **Graceful Shutdown**: Cấu hình `uvicorn` nhận tín hiệu `SIGTERM`, dừng nhận request mới nhưng chờ cho những request cũ được hoàn thành trước khi tắt.
+- **Stateless Agent**: Chuyển lịch sử chat của user lưu trên RAM sang Redis, giúp mọi instance đều truy cập được chung dữ liệu.
 
 ---
 
@@ -102,57 +100,51 @@ your-repo/
 
 ### 3. Service Domain Link
 
-Create a file `DEPLOYMENT.md` with your deployed service information:
-
-```markdown
-# Deployment Information
-
 ## Public URL
-https://your-agent.railway.app
+https://quocanne-production-9358.up.railway.app
 
 ## Platform
-Railway / Render / Cloud Run
+Railway
 
 ## Test Commands
 
 ### Health Check
 ```bash
-curl https://your-agent.railway.app/health
+curl https://quocanne-production-9358.up.railway.app/health
 # Expected: {"status": "ok"}
 ```
 
 ### API Test (with authentication)
 ```bash
-curl -X POST https://your-agent.railway.app/ask \
-  -H "X-API-Key: YOUR_KEY" \
+curl -X POST https://quocanne-production-9358.up.railway.app/ask \
+  -H "X-API-Key: my-super-secret-key-2026" \
   -H "Content-Type: application/json" \
   -d '{"user_id": "test", "question": "Hello"}'
 ```
 
 ## Environment Variables Set
-- PORT
-- REDIS_URL
+- ENVIRONMENT
+- PORT (Tự động set bởi Railway)
 - AGENT_API_KEY
-- LOG_LEVEL
+- JWT_SECRET
 
 ## Screenshots
 - [Deployment dashboard](screenshots/dashboard.png)
 - [Service running](screenshots/running.png)
 - [Test results](screenshots/test.png)
-```
 
 ##  Pre-Submission Checklist
 
-- [ ] Repository is public (or instructor has access)
-- [ ] `MISSION_ANSWERS.md` completed with all exercises
-- [ ] `DEPLOYMENT.md` has working public URL
-- [ ] All source code in `app/` directory
-- [ ] `README.md` has clear setup instructions
-- [ ] No `.env` file committed (only `.env.example`)
-- [ ] No hardcoded secrets in code
-- [ ] Public URL is accessible and working
-- [ ] Screenshots included in `screenshots/` folder
-- [ ] Repository has clear commit history
+- [x] Repository is public (or instructor has access)
+- [x] `MISSION_ANSWERS.md` completed with all exercises
+- [x] `DEPLOYMENT.md` has working public URL
+- [x] All source code in `app/` directory
+- [x] `README.md` has clear setup instructions
+- [x] No `.env` file committed (only `.env.example`)
+- [x] No hardcoded secrets in code
+- [x] Public URL is accessible and working
+- [x] Screenshots included in `screenshots/` folder
+- [x] Repository has clear commit history
 
 ---
 
@@ -188,7 +180,7 @@ done
 **Submit your GitHub repository URL:**
 
 ```
-https://github.com/your-username/day12-agent-deployment
+https://github.com/Pancasel/day12_2A202600952_DoQuocAn
 ```
 
 **Deadline:** 17/4/2026

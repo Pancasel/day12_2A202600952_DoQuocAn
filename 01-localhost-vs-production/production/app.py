@@ -10,6 +10,7 @@ So sánh với basic/app.py để thấy sự khác biệt:
   ✅ Port từ PORT env var (Railway/Render inject tự động)
 """
 import os
+import sys
 import signal
 import logging
 import json
@@ -17,6 +18,7 @@ import time
 from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware

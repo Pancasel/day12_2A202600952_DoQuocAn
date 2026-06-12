@@ -19,12 +19,14 @@ Simulate shutdown:
     # Xem agent log graceful shutdown message
 """
 import os
+import sys
 import time
 import signal
 import logging
 from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from fastapi import FastAPI, HTTPException
 import uvicorn

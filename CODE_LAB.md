@@ -151,6 +151,9 @@ cd ../../02-docker/develop
 ###  Exercise 2.2: Build và run
 
 ```bash
+# Go to project root first
+cd ../../
+
 # Build image
 docker build -f 02-docker/develop/Dockerfile -t my-agent:develop .
 
